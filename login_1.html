@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<body>
+  <form action="">
+    <h1>회원가입</h1>
+    <div>email : <input type="text" id="signUpEmail"></div>
+    <div>password : <input type="password" id="signUpPassword"></div>
+    <button type="submit" id="signUpButton">회원가입</button>
+  </form>
+
+  <form action="">
+    <h1>로그인</h1>
+    <div>email : <input type="text" id="signInEmail"></div>
+    <div>password : <input type="password" id="signInPassword"></div>
+    <button type="submit" id="signInButton">로그인</button>
+  </form>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCjfAqjOYywqJNzjk5MZ3MD05OimkftpXc",
+      authDomain: "login-a703c.firebaseapp.com",
+      projectId: "login-a703c",
+      storageBucket: "login-a703c.appspot.com",
+      messagingSenderId: "301154440730",
+      appId: "1:301154440730:web:a4a70a2a6844195fe4a3a3"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // 암호 기반 계정 만들기
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+    // button 확인 (회원가입-이메일,비밀번호 firebase 데이터에 저장)
+    document.getElementById('signUpButton').addEventListener('click', (e)=>{
+      e.preventDefault();
+      console.log('버튼클릭');
+
+      const signUpEmail = document.getElementById('signUpEmail').value;
+      const signUpPassword = document.getElementById('signUpPassword').value;
+
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    })
+
+    // 로그인버튼 클릭(로그인-회원가입해준 이메일, 비밀번호에서)
+    document.getElementById('signInButton').addEventListener('click', (e)=>{
+      e.preventDefault();
+
+      const signInEmail = document.getElementById('signInEmail').value;
+      const signInPassword = document.getElementById('signInPassword').value;
+      
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, signInEmail, signInPassword)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+    });
+
+    console.log('firebase 연결?');
+  </script>
+</body>
+</html>
