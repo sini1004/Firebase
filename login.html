@@ -33,27 +33,31 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
 
+    // 암호 기반 계정 만들기
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
     // button 확인
     document.getElementById('signUpButton').addEventListener('click', (e)=>{
       e.preventDefault();
-      console.log('버튼클릭')
+      console.log('버튼클릭');
+
+      const email = document.getElementById('signUpEmail').value;
+      const password = document.getElementById('signUpPassword').value;
+
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
     })
 
-    // 암호 기반 계정 만들기
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
     console.log('firebase 연결?');
   </script>
 </body>
